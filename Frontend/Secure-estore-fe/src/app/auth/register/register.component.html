@@ -1,0 +1,23 @@
+<div class="login-container">
+  <h2>Register</h2>
+  <form>
+    <div class="form-group">
+        <label for="name">First Name</label>
+        <input type="text" [(ngModel)]="regObj.firstname" id="email" name="firstName" required>
+      </div>
+      <div class="form-group">
+        <label for="name">Last Name</label>
+        <input type="text" [(ngModel)]="regObj.lastname" id="email" name="lastName" required>
+      </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" [(ngModel)]="regObj.email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" [(ngModel)]="regObj.password" id="password" name="password" required>
+    </div>
+    <button type="submit" (click)="onRegister()" >Register</button>
+    already a member? <button (click)="goToLogin()"> Go To Login</button>
+  </form>
+</div>
