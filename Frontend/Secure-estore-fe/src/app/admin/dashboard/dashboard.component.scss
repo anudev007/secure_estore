@@ -1,0 +1,15 @@
+
+.card-container {
+  display: flex;
+  gap: 1rem;
+  .card{
+    height: 25rem;
+    width: 25rem;
+    background-color: blueviolet;
+    color: white;
+    display: flex;
+    justify-content: center;
+    border-radius: 0.5rem;
+  }
+
+}
