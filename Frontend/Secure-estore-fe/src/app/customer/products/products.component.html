@@ -1,1 +1,13 @@
-<p>products works!</p>
+<div class="parent">
+    <div class="card-container">
+        <div class="card" *ngFor="let product of products">
+            <img src="assets/sample.jpg" alt="Avatar" style="width:100%">
+            <div class="container">
+                <h4><b>{{product.name}}</b></h4>
+                <p>{{product.description}}</p>
+                <p>{{product.price}}</p>
+                <button (click)="addToCart(product)">Add to Cart</button>
+            </div>
+    </div>
+
+</div>

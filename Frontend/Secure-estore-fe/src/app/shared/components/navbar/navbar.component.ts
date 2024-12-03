@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { routes } from '../../../app.routes';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -9,10 +11,14 @@ import { Component } from '@angular/core';
 export class NavbarComponent {
   userName = localStorage.getItem('userName');
   userType = localStorage.getItem('userType');
+  router = inject(Router);
 
   logout() {
     localStorage.clear();
     window.location.reload();
+  }
+  navigateCart(){
+    this.router.navigate(['/cart']);
   }
   
 }

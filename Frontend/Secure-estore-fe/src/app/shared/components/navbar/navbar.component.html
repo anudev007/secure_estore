@@ -4,7 +4,9 @@
     </div>
     <div class="nav-icons">
         <div class="user-name">{{userName}}</div>
-        <div class="cart-icon">Cart</div>
+        @if(userType == 'consumer') {
+            <div class="cart-icon" (click)="navigateCart()">Cart</div>
+        }
         <div class="logout-icon" (click)="logout()">Logout</div>
     </div>
 
