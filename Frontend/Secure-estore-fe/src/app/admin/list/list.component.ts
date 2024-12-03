@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-list',
@@ -6,6 +7,14 @@ import { Component } from '@angular/core';
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss'
 })
-export class ListComponent {
+export class ListComponent implements OnInit {
+  products: any = [];
+  http = inject(HttpClient);
+  ngOnInit(): void {
+    this.http.get('http://127.0.0.1:5000/products').subscribe((res: any) => {
+      console.log(res);
+      this.products = res.products;
+    });
+  }
 
 }

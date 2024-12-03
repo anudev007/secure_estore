@@ -19,7 +19,7 @@ export class LoginComponent {
     router = inject(Router);
 
     onLogin() {
-        this.http.post('http://127.0.0.1:5000/login', this.loginObj).subscribe((res: any) => {
+        this.http.post('http://127.0.0.1:5000/login', this.loginObj, { withCredentials: true }).subscribe((res: any) => {
             console.log(res);
             localStorage.setItem('isAuthenticated', 'true');
             localStorage.setItem('userType', res.user);

@@ -1,1 +1,36 @@
-<p>cart works!</p>
+<div class="cart">
+    <h2>Your Cart</h2>
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>Product Id</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (product of products; track product; let  i = $index){
+            <tr>
+                <td>{{i+1}}</td>
+                <td>{{product.name}}</td>
+                <td>{{product.quantity}}</td>
+                <td>{{product.price}}$</td>
+                <td>
+                    <button class="add" (click)="addItem(product.product_id)">Add</button>
+                    <button class="delete" (click)="deleteItem(product)">Delete</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    
+        <tfoot>
+            <tr>
+                <td colspan="3"></td>
+                <td>Total:</td>
+                <td>{{total}}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
