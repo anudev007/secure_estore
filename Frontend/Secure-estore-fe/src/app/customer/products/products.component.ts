@@ -13,7 +13,7 @@ export class ProductsComponent {
   products: any = [];
   http = inject(HttpClient);
   ngOnInit(): void {
-    this.http.get('http://127.0.0.1:5000/products').subscribe((res: any) => {
+    this.http.get('http://127.0.0.1:5000/products',{withCredentials: true}).subscribe((res: any) => {
       console.log(res);
       this.products = res.products;
     });
