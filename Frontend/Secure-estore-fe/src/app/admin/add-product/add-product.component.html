@@ -1,1 +1,24 @@
-<p>add-product works!</p>
+<div class="login-container">
+    <h2>Add Product</h2>
+    <form>
+      <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" [(ngModel)]="regObj.name" id="email" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="name">Price</label>
+          <input type="number" [(ngModel)]="regObj.price" id="email" name="price" required>
+        </div>
+      <div class="form-group">
+        <label for="email">Description</label>
+        <input type="email" [(ngModel)]="regObj.description" id="email" name="Description" required>
+      </div>
+      @if(isEdit){
+        <button type="submit" (click)="onEdit()" >Edit</button>
+      }
+      @else {
+        <button type="submit" (click)="onAdd()" >Add</button>
+      }
+    
+    </form>
+  </div>

@@ -121,7 +121,7 @@ def create_product():
         name=data['name'],
         price=data['price'],
         description=data['description'],
-        stock=data['stock']
+        
     )
     db.session.add(new_product)
     db.session.commit()
@@ -139,7 +139,6 @@ def get_product(id):
         'name': product.name,
         'price': product.price,
         'description': product.description,
-        'stock': product.stock
     })
 
 
@@ -155,7 +154,6 @@ def list_products():
             'name': product.name,
             'price': product.price,
             'description': product.description,
-            'stock': product.stock
         }
         for product in products
     ]
@@ -172,7 +170,6 @@ def update_product(id):
     product.name = data.get('name', product.name)
     product.price = data.get('price', product.price)
     product.description = data.get('description', product.description)
-    product.stock = data.get('stock', product.stock)
     db.session.commit()
     return jsonify({'message': 'Product updated'})
 

@@ -27,7 +27,6 @@ class Products(db.Model):
     name = db.Column(db.String(100), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     description = db.Column(db.Text, nullable=False)
-    stock = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return f"Products('{self.name}', '{self.price}')"

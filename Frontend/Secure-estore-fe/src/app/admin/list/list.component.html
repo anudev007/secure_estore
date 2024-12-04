@@ -1,5 +1,7 @@
-<div class="container">
+
+  <div class="container">
     <h2>Products</h2>
+    <button class="btn btn-primary create-btn" (click)="addProduct()">Create New Product</button>
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -7,19 +9,22 @@
           <th>Name</th>
           <th>Description</th>
           <th>Price</th>
-   
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         @for (product of products; track product.id){
-        <tr>
+        <tr >
           <td>{{ product.id }}</td>
           <td>{{ product.name }}</td>
           <td>{{ product.description }}</td>
-          <td>{{ product.price  }}</td>
+          <td>{{ product.price }}</td>
+          <td>
+            <button class="btn btn-warning btn-sm" (click)="editProduct(product)">Edit</button>
+            <button class="btn btn-danger btn-sm" (click)="deleteProduct(product)">Delete</button>
+          </td>
         </tr>
-        }
-      
+      }
       </tbody>
     </table>
   </div>
