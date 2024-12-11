@@ -34,16 +34,24 @@ export class AddProductComponent {
   }
 
   onEdit(){
-    this.http.put(`http://127.0.0.1:5000/admin/products/${this.productId}`, this.regObj,{withCredentials: true}).subscribe((res: any) => {
+    this.http.put(`http://127.0.0.1:5000/admin/products/${this.productId}`, this.regObj,{withCredentials: true}).subscribe({
+      next: (res: any) => {
       alert(res.message);
-    });
+    },
+  error: (error: any)=>{
+    alert(error.error.error)
+  }});
   }
 
   onAdd() {
-    this.http.post('http://127.0.0.1:5000/admin/products', this.regObj,{withCredentials: true}).subscribe((res: any) => {
-      console.log(res);
+    this.http.post('http://127.0.0.1:5000/admin/products', this.regObj,{withCredentials: true}).subscribe({
+      next: (res: any) => {
+      alert(res.message);
   
-    });
+    },
+    error: (error: any)=>{
+      alert(error.error.error)
+    }});
   }
 
 }

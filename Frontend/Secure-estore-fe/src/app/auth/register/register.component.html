@@ -1,23 +1,39 @@
 <div class="login-container">
   <h2>Register</h2>
-  <form>
+  <form #registerForm="ngForm">
     <div class="form-group">
         <label for="name">First Name</label>
-        <input type="text" [(ngModel)]="regObj.firstname" id="email" name="firstName" required>
+        <input type="text" [(ngModel)]="regObj.firstname" id="email" name="firstName" minlength="3" #firstName="ngModel" required>
+        <div *ngIf="firstName.invalid && firstName.touched" class="error">
+          <small *ngIf="firstName.errors?.['required']">This field is required.</small>
+          <small *ngIf="firstName.errors?.['minlength']">Field must be at least 3 characters long.</small>
+        </div>
       </div>
       <div class="form-group">
         <label for="name">Last Name</label>
-        <input type="text" [(ngModel)]="regObj.lastname" id="email" name="lastName" required>
+        <input type="text" [(ngModel)]="regObj.lastname" id="email" name="lastName" #lastName="ngModel" minlength="3" required>
+        <div *ngIf="lastName.invalid && lastName.touched" class="error">
+          <small *ngIf="lastName.errors?.['required']">This field is required.</small>
+          <small *ngIf="lastName.errors?.['minlength']">Field must be at least 3 characters long.</small>
+        </div>
       </div>
     <div class="form-group">
       <label for="email">Email:</label>
-      <input type="email" [(ngModel)]="regObj.email" id="email" name="email" required>
+      <input type="email" [(ngModel)]="regObj.email" id="email" name="email" #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+      <div *ngIf="email.invalid && email.touched"   class="error">
+        <small *ngIf="email.errors?.['required']">Email is required.</small>
+        <small *ngIf="email.errors?.['pattern']">Enter a valid email address.</small>
+      </div>
     </div>
     <div class="form-group">
       <label for="password">Password:</label>
-      <input type="password" [(ngModel)]="regObj.password" id="password" name="password" required>
+      <input type="password" [(ngModel)]="regObj.password" id="password" name="password"  #password="ngModel" required>
+      <div *ngIf="password.invalid && password.touched" class="error">
+        <small *ngIf="password.errors?.['required']">Password is required.</small>
+        <small *ngIf="password.errors?.['minlength']">Password must be at least 6 characters long.</small>
+      </div>
     </div>
-    <button type="submit" (click)="onRegister()" >Register</button>
+    <button type="submit" (click)="onRegister()" [disabled]="registerForm.invalid" >Register</button>
     already a member? <button (click)="goToLogin()"> Go To Login</button>
   </form>
 </div>

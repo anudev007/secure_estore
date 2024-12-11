@@ -24,6 +24,17 @@ def register():
     data = request.json
     if not data or not all(k in data for k in ("lastname", "firstname", "email", "password")):
         return jsonify({"error": "Missing required fields"}), 400
+    # Input validation
+    if len(data["firstname"]) < 2 or len(data["lastname"]) < 2:
+        return jsonify({"error": "First name and last name must be at least 2 characters long"}), 400
+    if "@" not in data["email"] or "." not in data["email"]:
+        return jsonify({"error": "Invalid email address"}), 400
+    if len(data["password"]) < 8:
+        return jsonify({"error": "Password must be at least 6 characters long"}), 400
+
+    # Check if user already exists
+    if User.query.filter_by(email=data["email"]).first():
+        return jsonify({"error": "Email is already exists"}), 400
 
     user = User(
         lastname=data["lastname"],
@@ -58,6 +69,8 @@ def login():
     data = request.json
     if not data or not all(k in data for k in ("email", "password")):
         return jsonify({"error": "Missing required fields"}), 400
+    if "@" not in data["email"] or "." not in data["email"]:
+        return jsonify({"error": "Invalid email address"}), 400
 
     user = User.query.filter_by(email=data["email"], password=data["password"]).first()
     if user:
@@ -117,6 +130,18 @@ def create_product():
     if not authenticated:
         return jsonify({"error": "Unauthorized"}), 401
     data = request.get_json()
+    required_fields = {"name", "price", "description"}
+    
+    if not data or not required_fields.issubset(data.keys()):
+        return jsonify({"error": "Missing required fields"}), 400
+    if len(data["name"]) < 3:
+        return jsonify({"error": "Product name must be at least 3 characters long"}), 400
+    if not isinstance(data["price"], (int, float)) or data["price"] <= 0:
+        return jsonify({"error": "Price must be a positive number"}), 400
+    if len(data["description"]) < 5:
+        return jsonify({"error": "Description must be at least 5 characters long"}), 400
+
+    
     new_product = Products(
         name=data['name'],
         price=data['price'],
@@ -167,6 +192,13 @@ def update_product(id):
         return jsonify({"error": "Unauthorized"}), 401
     product = Products.query.get_or_404(id)
     data = request.get_json()
+
+    if len(data["name"]) < 3:
+        return jsonify({"error": "Product name must be at least 3 characters long"}), 400
+    if not isinstance(data["price"], (int, float)) or data["price"] <= 0:
+        return jsonify({"error": "Price must be a positive number"}), 400
+    if len(data["description"]) < 5:
+        return jsonify({"error": "Description must be at least 5 characters long"}), 400
     product.name = data.get('name', product.name)
     product.price = data.get('price', product.price)
     product.description = data.get('description', product.description)
@@ -211,6 +243,8 @@ def cart():
         data = request.json
         if not data or "product_id" not in data:
             return jsonify({"error": "Missing product_id"}), 400
+        if not isinstance(data["product_id"], int):
+            return jsonify({"error": "Invalid product_id"}), 400
 
         product_id = data["product_id"]
         cart_item = Cart.query.filter_by(product_id=product_id, buyer=user).first()
