@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, make_response
 from src import app, db
+from bcrypt import gensalt, hashpw, checkpw
 from src.models import User, Products, Cart
 
 def is_authenticated():
@@ -35,12 +36,12 @@ def register():
     # Check if user already exists
     if User.query.filter_by(email=data["email"]).first():
         return jsonify({"error": "Email is already exists"}), 400
-
+    hashed_password = hashpw(data["password"].encode('utf-8'), gensalt())
     user = User(
         lastname=data["lastname"],
         firstname=data["firstname"],
         email=data["email"],
-        password=data['password'],
+        password=hashed_password.decode('utf-8'),
         user_type='consumer'
     )
     db.session.add(user)
@@ -51,11 +52,12 @@ def register():
 def load_admin():
     
     if not User.query.filter_by(email="admin@test.com").first():
+        hashed_password = hashpw("password".encode('utf-8'), gensalt())
         user = User(
             lastname='test',
             firstname='admin',
             email='admin@test.com',
-            password='password',
+            password=hashed_password.decode('utf-8'), 
             user_type='admin'
         )
         db.session.add(user)
@@ -72,8 +74,8 @@ def login():
     if "@" not in data["email"] or "." not in data["email"]:
         return jsonify({"error": "Invalid email address"}), 400
 
-    user = User.query.filter_by(email=data["email"], password=data["password"]).first()
-    if user:
+    user = User.query.filter_by(email=data["email"]).first()
+    if user and checkpw(data["password"].encode('utf-8'), user.password.encode('utf-8')):
         response = make_response(jsonify({"message": "Login successful", "user": user.user_type, "name":user.firstname } ))
         response.set_cookie("email", user.email, httponly=False, secure=True, samesite='None')
         return response
