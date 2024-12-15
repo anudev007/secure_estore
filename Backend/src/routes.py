@@ -3,13 +3,15 @@ from src import app, db
 from bcrypt import gensalt, hashpw, checkpw
 from src.models import User, Products, Cart
 
-def is_authenticated():
+def is_authenticated(role=None):
     username = request.cookies.get('email')
     print("Cookies received in the request:", request.cookies)
     print(request.cookies)
     if username:
         user = User.query.filter_by(email=username).first()
         if user:
+            if role and user.user_type != role:
+                return False, None
             return True, user
     return False, None
 
@@ -77,7 +79,7 @@ def login():
     user = User.query.filter_by(email=data["email"]).first()
     if user and checkpw(data["password"].encode('utf-8'), user.password.encode('utf-8')):
         response = make_response(jsonify({"message": "Login successful", "user": user.user_type, "name":user.firstname } ))
-        response.set_cookie("email", user.email, httponly=False, secure=True, samesite='None')
+        response.set_cookie("email", user.email, httponly=True, secure=True, samesite='None')
         return response
 
     return jsonify({"error": "Invalid credentials"}), 401
@@ -114,7 +116,7 @@ def account():
     return jsonify({"message": "Account updated successfully"})
 @app.route("/products", methods=["GET"])
 def products():
-    authenticated, _ = is_authenticated()
+    authenticated, _ = is_authenticated(role="consumer")
     if authenticated:
         products = Products.query.all()
         products_list = [
@@ -128,7 +130,7 @@ def products():
 
 @app.route('/admin/products', methods=['POST'])
 def create_product():
-    authenticated, user = is_authenticated()
+    authenticated, user = is_authenticated(role="admin")
     if not authenticated:
         return jsonify({"error": "Unauthorized"}), 401
     data = request.get_json()
@@ -157,7 +159,7 @@ def create_product():
 
 @app.route('/admin/products/<int:id>', methods=['GET'])
 def get_product(id):
-    authenticated, user = is_authenticated()
+    authenticated, user = is_authenticated(role="admin")
     if not authenticated:
         return jsonify({"error": "Unauthorized"}), 401
     product = Products.query.get_or_404(id)
@@ -171,7 +173,7 @@ def get_product(id):
 
 @app.route('/admin/products', methods=['GET'])
 def list_products():
-    authenticated, user = is_authenticated()
+    authenticated, user = is_authenticated(role="admin")
     if not authenticated:
         return jsonify({"error": "Unauthorized"}), 401
     products = Products.query.all()
@@ -189,7 +191,7 @@ def list_products():
 
 @app.route('/admin/products/<int:id>', methods=['PUT'])
 def update_product(id):
-    authenticated, user = is_authenticated()
+    authenticated, user = is_authenticated(role="admin")
     if not authenticated:
         return jsonify({"error": "Unauthorized"}), 401
     product = Products.query.get_or_404(id)
@@ -210,7 +212,7 @@ def update_product(id):
 
 @app.route('/products/<int:id>', methods=['DELETE'])
 def delete_product(id):
-    authenticated, user = is_authenticated()
+    authenticated, user = is_authenticated(role="admin")
     if not authenticated:
         return jsonify({"error": "Unauthorized"}), 401
     product = Products.query.get_or_404(id)
@@ -220,7 +222,7 @@ def delete_product(id):
 
 @app.route("/cart", methods=["GET", "POST", "DELETE"])
 def cart():
-    authenticated, user = is_authenticated()
+    authenticated, user = is_authenticated(role="consumer")
     if not user:
         return jsonify({"error": "Unauthorized"}), 401
 
