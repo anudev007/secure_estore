@@ -37,7 +37,7 @@ The Secure E-Commerce Application is a web-based platform that allows users to b
 
 - **Input Validation**:  
    - Backend validation of user inputs to prevent malicious data.
-- - **Role Base Acess Control**:  
+- **Role Base Acess Control**:  
    - User type validation on front end and back end  
 
 ---
@@ -85,7 +85,8 @@ The Secure E-Commerce Application is a web-based platform that allows users to b
    python3 app.py
      ```
 5. Run this to add and get admin credenials:
-   <local>/admin/load
+   - `<local>/admin/load`
+
 
 ---
 
@@ -103,15 +104,16 @@ The Secure E-Commerce Application is a web-based platform that allows users to b
 #### **Important Notes**:  
 - Ensure both the Flask backend and Angular frontend are running before interacting with the app.  
 - Use only secure channels (HTTPS) in production environments.
-Demonstration Purpose Route:
-The route <local>/admin/load is included only for demonstration and testing purposes.
-What it does: This route creates an admin user and displays their credentials in the response.
-Warning:
-This route is not secure and should never be deployed in production environments.
-It bypasses standard security protocols such as hashed passwords and secure credential storage.
-Action Required Before Deployment:
-Ensure this route is removed or disabled in the production version of the application.
-Replace this functionality with a secure admin creation process accessible only to authorized users, such as through a CLI or secure admin panel.
+- Demonstration Purpose Route:
+   - The route <local>/admin/load is included only for demonstration and testing purposes.
+   - What it does: This route creates an admin user and displays their credentials in the response.
+- Warning:
+   - This route is not secure and should never be deployed in production environments
+   - It bypasses standard security protocols such as hashed passwords and secure credential storage.
+   - Action Required Before Deployment:
+      - Ensure this route is removed or disabled in the production version of the application.
+        Replace this functionality with a secure admin creation process accessible only to authorized users, such as through a CLI or secure admin panel.
+
 ---
 
 ### **Security Improvements**  
