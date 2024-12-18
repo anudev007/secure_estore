@@ -2,7 +2,7 @@
 
 ## **Secure E-Commerce Application**  
 ### **Overview**  
-The Secure E-Commerce Application is a web-based platform that allows users to browse products, manage their carts, and make purchases. This project focuses on integrating modern web security best practices to protect against common vulnerabilities like **SQL injection**, **Cross-Site Scripting (XSS)**, and insecure session handling.  
+The Secure E-Commerce Application is a web-based platform that allows users to browse products and manage their carts. This project focuses on integrating modern web security best practices to protect against common vulnerabilities like **SQL injection**, **Cross-Site Scripting (XSS)**, and insecure session handling.  
 
 ---
 
@@ -18,8 +18,7 @@ The Secure E-Commerce Application is a web-based platform that allows users to b
    - **Customer**: Browse and add products to the cart.  
 
 3. **Cart and Checkout**:  
-   - Manage cart items.  
-   - Place orders securely.  
+   - Manage cart items.   
 
 4. **User Management**:  
    - **Admin**: View registered users.  
@@ -37,54 +36,56 @@ The Secure E-Commerce Application is a web-based platform that allows users to b
    - CSRF protection using Flask-WTF.  
 
 - **Input Validation**:  
-   - Backend validation of user inputs to prevent malicious data.  
+   - Backend validation of user inputs to prevent malicious data.
+- - **Role Base Acess Control**:  
+   - User type validation on front end and back end  
 
 ---
 
 ### **Setup and Installation Instructions**  
 
 #### **Prerequisites**:  
-- Python 3.x  
+- Python 3
 - Node.js and npm (for Angular frontend)  
 - Flask installed  
 
-#### **Steps**:  
+#### **Steps for Front End**:  
 1. Clone the repository:  
    ```bash  
-   git clone https://github.com/your-repo-name.git  
-   cd your-repo-name  
+   git clone https://github.com/anudev007/secure_estore.git 
+   cd secure_estore  
    ```  
-
-2. Set up the Python environment:  
+2. Set up the Angular frontend:  
    ```bash  
-   python -m venv venv  
-   source venv/bin/activate  # On Windows: venv\Scripts\activate  
-   ```  
-
-3. Install Python dependencies:  
-   ```bash  
-   pip install -r requirements.txt  
-   ```  
-
-4. Set up the Angular frontend:  
-   ```bash  
-   cd frontend  
+   cd Frontend/secure-estore-fe
    npm install  
-   ```  
-
-5. Configure the application:  
-   - Create a `.env` file based on the `config.py` structure to define the database URL and secret keys.  
-
-6. Run the application:  
-   ```bash  
-   flask run  
-   ```  
-
-7. Launch the Angular frontend:  
+   ``` 
+3. Launch the Angular frontend:  
    ```bash  
    cd frontend  
    ng serve  
+   ```
+#### **Steps for Bakend**:  
+1. Clone the repository:  
+   ```bash  
+   git clone https://github.com/anudev007/secure_estore.git 
+   cd secure_estore/Backend 
+   ```   
+2. Install Requirements:  
+   ```bash  
+   pip3 install -r requirements.txt 
    ```  
+3. Create and load databse with sample products:  
+   ```bash  
+   python3 create_db.py
+   pyhton3 add_products.py
+   ```
+4. Run Server:
+     ```bash  
+   python3 app.py
+     ```
+5. Run this to add and get admin credenials:
+   <local>/admin/load
 
 ---
 
@@ -101,8 +102,16 @@ The Secure E-Commerce Application is a web-based platform that allows users to b
 
 #### **Important Notes**:  
 - Ensure both the Flask backend and Angular frontend are running before interacting with the app.  
-- Use only secure channels (HTTPS) in production environments.  
-
+- Use only secure channels (HTTPS) in production environments.
+Demonstration Purpose Route:
+The route <local>/admin/load is included only for demonstration and testing purposes.
+What it does: This route creates an admin user and displays their credentials in the response.
+Warning:
+This route is not secure and should never be deployed in production environments.
+It bypasses standard security protocols such as hashed passwords and secure credential storage.
+Action Required Before Deployment:
+Ensure this route is removed or disabled in the production version of the application.
+Replace this functionality with a secure admin creation process accessible only to authorized users, such as through a CLI or secure admin panel.
 ---
 
 ### **Security Improvements**  
@@ -124,6 +133,3 @@ The Secure E-Commerce Application is a web-based platform that allows users to b
 #### **Frontend Security**:  
 - Angular handles client-side sanitization and disallows direct HTML injection unless explicitly trusted.  
 
----
-
-Feel free to expand or customize this based on your specific implementation!
